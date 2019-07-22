@@ -8,6 +8,8 @@ const app = require('../app');
 const debug = require('debug')('tz:server');
 const http = require('http');
 
+require('../configs/mongoose.config');
+
 /**
  * Get port from environment and store in Express.
  */
