@@ -6,15 +6,10 @@ module.exports.register = async (req, res, next) => {
     await UserModel.create({
       username:    req.body.username,
       password:    req.body.password,
-      email:       req.body.email
     });
 
     res.status(201).json({ success: true, message: 'user created' });
   } catch (err) {
-
-    // if (err.code === 11000) {
-    //   res.status(409).json({ success: false, message: 'user already exists' });
-    // }
     next(err);
   }
 };

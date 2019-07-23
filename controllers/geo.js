@@ -5,53 +5,43 @@ const through2 = require('through2');
 
 const outputDBConfig = { dbURL: 'mongodb+srv://test:testtest@cluster0-dl7ek.mongodb.net/test?retryWrites=true&w=majority', collection: 'points' };
 const PointModel = require('../models/Point');
+const readFilePromise = require('fs-readfile-promise');
 
-module.exports.saveGeoFile = async (req, res, next) => {
-  try {
-    const writableStream = streamToMongoDB(outputDBConfig);
-    req.pipe(split2())
-      .pipe(transformToObj())
-      .pipe(writableStream)
-      .on('finish', () => res.status(200).json({ success: true, message: 'ok' }))
-      .on('error', err => next(err));
-  } catch (err) {
-    next(err);
-  }
+module.exports.saveGeoFile = (req, res, next) => {
+  const writableStream = streamToMongoDB(outputDBConfig);
+  req.pipe(split2())
+    /* simple parsing of user coordinates file using streams in object mode */
+    .pipe(transformToObj())
+    /* piping with MongoDB writable stream */
+    .pipe(writableStream)
+    .on('finish', () => res.status(200).json({ success: true, message: 'points saved' }))
+    .on('close', () => res.status(499).json({ success: false, message: 'connection closed while processing the request' }))
+    .on('error', err => next(err));
 };
 
 module.exports.getAreaPointsQuantity = async (req, res, next) => {
   try {
-    // let polygons = [
-    //   [
-    //     [59.962530, 30.157293],
-    //     [59.964705, 30.319775],
-    //     [59.913255, 30.327663],
-    //     [59.914047, 30.176223],
-    //     [59.962530, 30.157293]
-    //   ],
-    //   [
-    //     [59.942728, 30.238468],
-    //     [59.946000, 30.323956],
-    //     [59.917484, 30.328591],
-    //     [59.916363, 30.238125],
-    //     [59.942728, 30.238468]
-    //   ]
-    // ];
+    let points = [];
 
-    const area = {
-      type: 'Polygon',
-      coordinates: [[
-        [59.962530, 30.157293],
-        [59.964705, 30.319775],
-        [59.913255, 30.327663],
-        [59.914047, 30.176223],
-        [59.962530, 30.157293]
-      ]]
-    };
+    /* reading file with polygons from server */
+    const data = await readFilePromise('polygons.json', 'utf8');
+    const polygons = JSON.parse(data);
 
-    const point = await PointModel.count().where('location').within(area).exec();
+    /* getting count of detected points from each polygon for current user */
+    for (let index = 0; index < polygons.length; index++) {
+      const count = await PointModel.countDocuments()
+        .where('location')
+        .within({
+          type: 'Polygon',
+          coordinates: [polygons[index]]
+          // todo insert coordinates owner
+        })
+        .exec();
 
-    res.status(200).json({ success: true, message: point });
+      points.push({ polygonIndexNumber: index, detectedPoints: count });
+    }
+
+    res.status(200).json({ success: true, message: points });
 
   } catch (err) {
     next(err);
@@ -62,9 +52,9 @@ const transformToObj = () => {
   return through2.obj((line, enc, cb) => {
     const geo = line.split(' ] ')[0].slice(2).split(', ');
     const title = line.split(' ] ')[1];
-    // todo validation
+    // todo user coordinates validation
     if (geo[0] && geo[1]) {
-      return cb(null, { lat: geo[0], lon: geo[1], title, location: { coordinates: [Number(geo[1]), Number(geo[0])], type: 'Point' } });
+      return cb(null, { title, location: { coordinates: [Number(geo[1]), Number(geo[0])], type: 'Point' } });
     } else { return cb(null, null); }
   });
 };

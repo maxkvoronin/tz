@@ -4,7 +4,6 @@ const logger = require('morgan');
 const passport = require('passport');
 require('./configs/passport.config')(passport);
 
-const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const geoRouter = require('./routes/geo');
 
@@ -16,7 +15,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/geo', geoRouter);
 

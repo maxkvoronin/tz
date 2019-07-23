@@ -8,7 +8,6 @@ const validator = require('express-joi-validation').createValidator({
 const regSchema = Joi.object({
   username: Joi.string().required(),
   password: Joi.string().required(),
-  email: Joi.string()
 });
 
 const ctrlUsers = require('../controllers/users');

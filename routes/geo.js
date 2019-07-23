@@ -5,6 +5,7 @@ const passport = require('passport');
 const ctrlGeo = require('../controllers/geo');
 
 //router.use(passport.authenticate('jwt', { session: false }));
+
 router.post('/save', ctrlGeo.saveGeoFile);
 router.get('/pointquantity', ctrlGeo.getAreaPointsQuantity);
 
