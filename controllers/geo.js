@@ -15,7 +15,6 @@ module.exports.saveGeoFile = (req, res, next) => {
     /* piping with MongoDB writable stream */
     .pipe(writableStream)
     .on('finish', () => res.status(200).json({ success: true, message: 'points saved' }))
-    .on('close', () => res.status(499).json({ success: false, message: 'connection closed while processing the request' }))
     .on('error', err => next(err));
 };
 
