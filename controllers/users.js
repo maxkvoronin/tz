@@ -3,8 +3,6 @@ const UserModel = require('../models/User');
 
 module.exports.register = async (req, res, next) => {
   try {
-    console.log(req.body);
-
     await UserModel.create({
       username:    req.body.username,
       password:    req.body.password,
@@ -14,10 +12,9 @@ module.exports.register = async (req, res, next) => {
     res.status(201).json({ success: true, message: 'user created' });
   } catch (err) {
 
-    if (err.code === 11000) {
-      res.status(409).json({ success: false, message: 'user already exists' });
-    }
-
+    // if (err.code === 11000) {
+    //   res.status(409).json({ success: false, message: 'user already exists' });
+    // }
     next(err);
   }
 };

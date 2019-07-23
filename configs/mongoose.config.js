@@ -8,6 +8,7 @@ mongoose.connect('mongodb+srv://cluster0-dl7ek.mongodb.net/test?retryWrites=true
 
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
+mongoose.set('debug', true);
 
 mongoose.connection.on('connected', () => {
   console.log('mongo connected');
