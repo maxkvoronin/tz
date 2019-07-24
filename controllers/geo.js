@@ -11,7 +11,7 @@ module.exports.saveGeoFile = (req, res, next) => {
   const writableStream = streamToMongoDB(outputDBConfig);
   req.pipe(split2())
     /* simple parsing of user coordinates file using streams in object mode */
-    .pipe(transformToObj())
+    .pipe(transformToObj(req.user._id))
     /* piping with MongoDB writable stream */
     .pipe(writableStream)
     .on('finish', () => res.status(200).json({ success: true, message: 'points saved' }))
@@ -29,11 +29,12 @@ module.exports.getAreaPointsQuantity = async (req, res, next) => {
     /* getting count of detected points from each polygon for current user */
     for (let index = 0; index < polygons.length; index++) {
       const count = await PointModel.countDocuments()
+        .where('owner')
+        .equals(req.user._id)
         .where('location')
         .within({
           type: 'Polygon',
-          coordinates: [polygons[index]]
-          // todo insert coordinates owner
+          coordinates: [polygons[index]],
         })
         .exec();
 
@@ -47,13 +48,13 @@ module.exports.getAreaPointsQuantity = async (req, res, next) => {
   }
 };
 
-const transformToObj = () => {
+const transformToObj = (owner) => {
   return through2.obj((line, enc, cb) => {
     const geo = line.split(' ] ')[0].slice(2).split(', ');
     const title = line.split(' ] ')[1];
     // todo user coordinates validation
     if (geo[0] && geo[1]) {
-      return cb(null, { title, location: { coordinates: [Number(geo[1]), Number(geo[0])], type: 'Point' } });
+      return cb(null, { title, owner, location: { coordinates: [Number(geo[0]), Number(geo[1])], type: 'Point' } });
     } else { return cb(null, null); }
   });
 };

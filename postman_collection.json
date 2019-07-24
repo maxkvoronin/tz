@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "f4d9e9ac-064a-4f6b-8764-d43c19707ac4",
+		"name": "tz",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/users/register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"max\",\n\t\"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/users/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"register"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "max2",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Register new user"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/users/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"max\",\n\t\"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/users/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "max2",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"disabled": true
+						}
+					]
+				},
+				"description": "login and get JWT token"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/geo/save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDM4MGEyM2ExODdmYTBjMTlmMWFjNWMiLCJ1c2VybmFtZSI6Im1heCIsInBhc3N3b3JkIjoiJDJhJDEwJHkueDUxQXhsd2hsZ2I5WU9GeXZkMmVONHlaMXN3bWhsekZWdUZmSDNRU0toVHIvRjNTVk9xIiwiaWF0IjoxNTYzOTUzODEwLCJleHAiOjE1NjQwNDAyMTB9.fWe1S4AFvyQ5uO1-sXV_YJqXarwzrEgLM0j9JdkBqxw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "",
+							"type": "file",
+							"src": ""
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/geo/save",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"geo",
+						"save"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "max2",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Save user points"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/geo/pointquantity",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDM4MGEyM2ExODdmYTBjMTlmMWFjNWMiLCJ1c2VybmFtZSI6Im1heCIsInBhc3N3b3JkIjoiJDJhJDEwJHkueDUxQXhsd2hsZ2I5WU9GeXZkMmVONHlaMXN3bWhsekZWdUZmSDNRU0toVHIvRjNTVk9xIiwiaWF0IjoxNTYzOTUzODEwLCJleHAiOjE1NjQwNDAyMTB9.fWe1S4AFvyQ5uO1-sXV_YJqXarwzrEgLM0j9JdkBqxw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"max\",\n\t\"password\": \"test\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/geo/pointquantity",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"geo",
+						"pointquantity"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "max2",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "pass",
+							"disabled": true
+						}
+					]
+				},
+				"description": "get points of user"
+			},
+			"response": []
+		}
+	]
+}

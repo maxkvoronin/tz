@@ -26,8 +26,6 @@ app.use((err, req, res, next) => {
     if (err.name === 'MongoError') {
       res.status(400).json({ success: false, message: err.errmsg });
     }
-
-    res.status(400).json({ success: false, message: err });
   }
   next(err);
 });
