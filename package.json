@@ -11,7 +11,7 @@
     "bcrypt-nodejs": "0.0.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "express": "~4.18.2",
     "express-joi-validation": "^2.0.0",
     "fs-readfile-promise": "^3.0.1",
     "jest": "^24.8.0",
